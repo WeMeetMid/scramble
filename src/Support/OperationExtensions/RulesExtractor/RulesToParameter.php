@@ -8,6 +8,7 @@ use Dedoc\Scramble\Support\Generator\Schema;
 use Dedoc\Scramble\Support\Generator\Types\Type as OpenApiType;
 use Dedoc\Scramble\Support\Generator\Types\UnknownType;
 use Dedoc\Scramble\Support\Generator\TypeTransformer;
+use Dedoc\Scramble\Support\Type\StringType;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocNode;
@@ -90,7 +91,7 @@ class RulesToParameter
                     $exampleValue = null;
                 } elseif (in_array($exampleValue, ['true', 'false'])) {
                     $exampleValue = $exampleValue === 'true';
-                } elseif (is_numeric($exampleValue)) {
+                } elseif (is_numeric($exampleValue) && !($parameter->schema->type instanceof StringType)) {
                     $exampleValue = floatval($exampleValue);
                 }
 
